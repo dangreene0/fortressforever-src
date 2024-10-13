@@ -1,10 +1,6 @@
-name: FF_Windows
+name: Windows Compiler
 
 on:
-  pull_request:
-    branches:
-      - main
-  
   workflow_dispatch:
 
 jobs:
@@ -20,10 +16,14 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         
       - name: Create project
-        run: cd mp/src;devtools/bin/vpc.exe /2013 /ff +game /mksln Game_FF.sln
+        run: |
+          cd mp/src
+          devtools/bin/vpc.exe /2013 /ff +game /mksln Game_FF.sln
 
       - name: Build project
-        run: cd mp/src;devenv Game_FF.sln /Build Release
+        run: |
+          cd mp/src
+          devenv Game_FF.sln /Build Release
 
       - name: Pack
         shell: bash
@@ -32,5 +32,5 @@ jobs:
       - name: Upload product
         uses: actions/upload-artifact@v4
         with:
-          name: FF_2013
+          name: FF_Windows
           path: Windows.tar.xz
